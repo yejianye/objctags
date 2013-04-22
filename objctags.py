@@ -4,6 +4,7 @@ import sys
 import re
 from string import Template
 
+# Method
 test_method_regex = re.compile(r'^\s*[+|-]\s*\(.*[^; ]\s*$')
 def test_method(line, index, lines):
     return test_method_regex.match(line)
@@ -18,9 +19,19 @@ def parse_method(line):
         return match_sig1.groups()[0]
     else:
         return ''.join(method_sig2_regex.findall(line))
+
+# Class
+# @implementation ExampleClass
+class_regex = re.compile(r'\s*@implementation\s+(.*)$')
+def test_class(line, index, lines):
+    return class_regex.match(line)
+
+def parse_class(line):
+    return class_regex.match(line).groups()[0]
     
 tag_kinds = (
     ('m', 'method', test_method, parse_method),
+    ('c', 'class', test_class, parse_class),
 )
 
 def gen_tags(fname, output):
