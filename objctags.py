@@ -25,6 +25,7 @@ tag_kinds = (
 
 def gen_tags(fname, output):
     lines = open(fname).readlines()
+    lines = [l.strip('\n') for l in lines]
     results = [process_line(fname, line, idx, lines) for idx, line in enumerate(lines)]
     output.writelines(r + '\n' for r in results if r)
 
